@@ -56,10 +56,6 @@ public class Main {
                 searchIndex.addStringToIndex(userInput);
             }
 
-            for (String s : searchIndex.searchIndex) {
-                System.out.println(s);
-            }
-
             System.out.println("Enter the number of search queries:");
             int numberOfQueries = Integer.parseInt(app.userInputScanner.nextLine());
 
@@ -67,41 +63,26 @@ public class Main {
 
                 String query = app.askQuery();
 
-                if (!searchIndex.searchIndex.contains(query)) {
-                    System.out.println("No matching people found.");
-                    continue;
-                }
-
+                ArrayList<String> result = new ArrayList<>();
                 for (String s : searchIndex.searchIndex) {
-                    if (s.contains(query)) {
-                        System.out.println("Found people:");
-                        System.out.println(s);
+
+                    if (s.contains(query.toLowerCase())) {
+                        result.add(s);
                     }
                 }
 
-
+                if (!result.isEmpty()) {
+                    System.out.println("Found people:");
+                    for (String s : result) {
+                        System.out.println(s);
+                    }
+                } else {
+                    System.out.println("No matching people found.");
+                }
             }
 
+            app.isUpAndRunning = false;
+
         }
-
-
-//        String[] input = inputScanner.nextLine().split(" ");
-//        String query = inputScanner.nextLine();
-//
-//        int i  = 0;
-//        boolean queryFound = false;
-//
-//        while (i < input.length && !queryFound) {
-//            if (input[i].equals(query)) {
-//                System.out.println(i + 1);
-//                queryFound = true;
-//            }
-//            i++;
-//        }
-//
-//        if (!queryFound) {
-//            System.out.println("Not found");
-//        }
-//    }
     }
 }
