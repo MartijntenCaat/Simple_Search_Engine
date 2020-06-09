@@ -47,8 +47,10 @@ public class Main {
 
         Main app = new Main();
 
+        SearchIndex searchIndex = new SearchIndex(app.askForIndexSize());
+
         while (app.isUpAndRunning) {
-            SearchIndex searchIndex = new SearchIndex(app.askForIndexSize());
+
 
             System.out.println("Enter all people:");
             for (int i = 0; i < searchIndex.getIndexSize(); i++) {
