@@ -3,10 +3,6 @@ package search;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class SearchIndex {
-
-}
-
 public class Main {
     private final Scanner scanner;
     private boolean isUpAndRunning;
@@ -31,19 +27,15 @@ public class Main {
         dataStore.add(input);
     }
 
-    public ArrayList<String> getDataStore() {
-        return dataStore;
-    }
-
-    public int askForIndexSize() {
+    public void askForAndSetIndexSize() {
         System.out.println("Enter the number of people:");
-        return Integer.parseInt(scanner.nextLine());
+        int indexSize = Integer.parseInt(scanner.nextLine());
+        setIndexSize(indexSize);
     }
 
     public String askQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
-        String searchQuery = scanner.nextLine();
-        return searchQuery;
+        return scanner.nextLine();
     }
 
     public void runMenuAction() {
@@ -108,9 +100,7 @@ public class Main {
     public static void main(String[] args) {
         Main app = new Main();
 
-        System.out.println("Enter the number of people:");
-        int indexSize = Integer.parseInt(app.scanner.nextLine());
-        app.setIndexSize(indexSize);
+        app.askForAndSetIndexSize();
 
         System.out.println("Enter all people:");
         for (int i = 0; i < app.getIndexSize(); i++) {
