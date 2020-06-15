@@ -70,7 +70,7 @@ public class Main {
         ArrayList<String> result = new ArrayList<>();
         for (String s : dataStore) {
 
-            if (s.contains(query.toLowerCase())) {
+            if (s.toLowerCase().contains(query.toLowerCase())) {
                 result.add(s);
             }
         }
