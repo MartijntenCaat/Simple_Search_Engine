@@ -41,13 +41,13 @@ public class Main {
     }
 
     public String askQuery() {
-        System.out.println("Enter data to search people:");
+        System.out.println("Enter a name or email to search all suitable people.");
         String searchQuery = scanner.nextLine();
         return searchQuery;
     }
 
     public void runMenuAction() {
-        final String menu = "=== Menu ===\n" +
+        final String menu = "\n=== Menu ===\n" +
                 "1. Find a person\n" +
                 "2. Print all people\n" +
                 "0. Exit";
@@ -61,10 +61,10 @@ public class Main {
                 findAPerson();
                 break;
             case "2":
-                // do something
+                printDataStore();
                 break;
             case "0":
-                isUpAndRunning = false;
+                exitApp();
                 break;
             default:
                 System.out.println("Incorrect option! Try again.");
@@ -73,7 +73,6 @@ public class Main {
     }
 
     public void findAPerson() {
-        System.out.println("Enter a name or email to search all suitable people.");
         String query = askQuery();
 
         ArrayList<String> result = new ArrayList<>();
@@ -95,9 +94,21 @@ public class Main {
 
     }
 
+    public void exitApp() {
+        isUpAndRunning = false;
+        System.out.println("Bye!");
+    }
+
+    public void printDataStore() {
+        for (String s : dataStore) {
+            System.out.println(s);
+        }
+    }
 
     public static void main(String[] args) {
         Main app = new Main();
+
+        System.out.println("Enter the number of people:");
         int indexSize = Integer.parseInt(app.scanner.nextLine());
         app.setIndexSize(indexSize);
 
@@ -108,18 +119,7 @@ public class Main {
         }
 
         while (app.isUpAndRunning) {
-
             app.runMenuAction();
-
-            System.out.println("Enter the number of search queries:");
-            int numberOfQueries = Integer.parseInt(app.scanner.nextLine());
-
-            for (int i = 0; i < numberOfQueries; i++) {
-                System.out.println("fix this");
-            }
-
-            app.isUpAndRunning = false;
-
         }
     }
 }
