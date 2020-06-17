@@ -3,86 +3,113 @@ package search;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class SearchIndex {
+public class Main {
+    private final Scanner scanner;
+    private boolean isUpAndRunning;
     private int indexSize;
-    public ArrayList<String> searchIndex;
+    public ArrayList<String> dataStore;
 
-    SearchIndex(int indexSize) {
-        this.indexSize = indexSize;
-        this.searchIndex = new ArrayList<>();
+    public Main() {
+        this.scanner = new Scanner(System.in);
+        this.dataStore = new ArrayList<>();
+        this.isUpAndRunning = true;
     }
 
     public int getIndexSize() {
         return indexSize;
     }
 
-    public void addStringToIndex (String input) {
-        searchIndex.add(input);
+    private void setIndexSize(int indexSize) {
+        this.indexSize = indexSize;
     }
 
-}
-
-public class Main {
-    private Scanner userInputScanner;
-    private boolean isUpAndRunning;
-
-    Main() {
-        this.userInputScanner = new Scanner(System.in);
-        this.isUpAndRunning = true;
+    public void addStringToIndex(String input) {
+        dataStore.add(input);
     }
 
-    public int askForIndexSize() {
+    public void askForAndSetIndexSize() {
         System.out.println("Enter the number of people:");
-        return Integer.parseInt(userInputScanner.nextLine());
+        int indexSize = Integer.parseInt(scanner.nextLine());
+        setIndexSize(indexSize);
     }
 
     public String askQuery() {
-        System.out.println("Enter data to search people:");
-        String searchQuery = userInputScanner.nextLine();
-        return searchQuery;
+        System.out.println("Enter a name or email to search all suitable people.");
+        return scanner.nextLine();
     }
 
+    public void runMenuAction() {
+        final String menu = "\n=== Menu ===\n" +
+                "1. Find a person\n" +
+                "2. Print all people\n" +
+                "0. Exit";
+
+        System.out.println(menu);
+
+        String action = scanner.nextLine();
+
+        switch (action) {
+            case "1": // find a person
+                findAPerson();
+                break;
+            case "2":
+                printDataStore();
+                break;
+            case "0":
+                exitApp();
+                break;
+            default:
+                System.out.println("Incorrect option! Try again.");
+                break;
+        }
+    }
+
+    public void findAPerson() {
+        String query = askQuery();
+
+        ArrayList<String> result = new ArrayList<>();
+        for (String s : dataStore) {
+
+            if (s.toLowerCase().contains(query.toLowerCase())) {
+                result.add(s);
+            }
+        }
+
+        if (!result.isEmpty()) {
+            System.out.println("Found people:");
+            for (String s : result) {
+                System.out.println(s);
+            }
+        } else {
+            System.out.println("No matching people found.");
+        }
+
+    }
+
+    public void exitApp() {
+        isUpAndRunning = false;
+        System.out.println("Bye!");
+    }
+
+    public void printDataStore() {
+        for (String s : dataStore) {
+            System.out.println(s);
+        }
+    }
 
     public static void main(String[] args) {
-
         Main app = new Main();
 
+        app.askForAndSetIndexSize();
+
+        System.out.println("Enter all people:");
+        for (int i = 0; i < app.getIndexSize(); i++) {
+            String userInput = app.scanner.nextLine();
+            app.addStringToIndex(userInput);
+        }
+
         while (app.isUpAndRunning) {
-            SearchIndex searchIndex = new SearchIndex(app.askForIndexSize());
-
-            System.out.println("Enter all people:");
-            for (int i = 0; i < searchIndex.getIndexSize(); i++) {
-                String userInput = app.userInputScanner.nextLine();
-                searchIndex.addStringToIndex(userInput);
-            }
-
-            System.out.println("Enter the number of search queries:");
-            int numberOfQueries = Integer.parseInt(app.userInputScanner.nextLine());
-
-            for (int i = 0; i < numberOfQueries; i++) {
-
-                String query = app.askQuery();
-
-                ArrayList<String> result = new ArrayList<>();
-                for (String s : searchIndex.searchIndex) {
-
-                    if (s.contains(query.toLowerCase())) {
-                        result.add(s);
-                    }
-                }
-
-                if (!result.isEmpty()) {
-                    System.out.println("Found people:");
-                    for (String s : result) {
-                        System.out.println(s);
-                    }
-                } else {
-                    System.out.println("No matching people found.");
-                }
-            }
-
-            app.isUpAndRunning = false;
-
+            app.runMenuAction();
         }
     }
 }
