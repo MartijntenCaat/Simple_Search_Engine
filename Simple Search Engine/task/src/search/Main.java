@@ -1,5 +1,6 @@
 package search;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -91,6 +92,23 @@ public class Main {
         System.out.println("Bye!");
     }
 
+    public void processCommandLineArgs(String[] args) {
+        if (args.length > 0 && args[0].equals("--data")) {
+            String fileName = args[1];
+
+            File file = new File(fileName);
+
+            try (Scanner fileScanner = new Scanner(file)) {
+                while (fileScanner.hasNext()) {
+                    String input = fileScanner.nextLine();
+                    addStringToIndex(input);
+                }
+            } catch (Exception e) {
+                System.out.println("Wrong: " + e);
+            }
+        }
+    }
+
     public void printDataStore() {
         for (String s : dataStore) {
             System.out.println(s);
@@ -100,14 +118,7 @@ public class Main {
     public static void main(String[] args) {
         Main app = new Main();
 
-        app.askForAndSetIndexSize();
-
-        System.out.println("Enter all people:");
-        for (int i = 0; i < app.getIndexSize(); i++) {
-            String userInput = app.scanner.nextLine();
-            app.addStringToIndex(userInput);
-        }
-
+        app.processCommandLineArgs(args);
         while (app.isUpAndRunning) {
             app.runMenuAction();
         }
