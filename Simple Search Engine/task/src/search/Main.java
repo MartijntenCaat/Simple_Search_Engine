@@ -92,14 +92,36 @@ public class Main {
 
             File file = new File(fileName);
 
+            int positionInFile = 0;
+
             try (Scanner fileScanner = new Scanner(file)) {
                 while (fileScanner.hasNext()) {
-                    String input = fileScanner.nextLine();
-                    addStringToIndex(input);
+                    String rawInput = fileScanner.nextLine();
+                    String[] input = rawInput.split(" ");
+
+                    for (String string : input) {
+                        if (!invertedIndex.containsKey(string)) {
+                            ArrayList<Integer> position = new ArrayList<>();
+                            position.add(positionInFile);
+                            invertedIndex.put(string, position);
+                        } else {
+                            ArrayList<Integer> existingPositionList = invertedIndex.get(string);
+                            existingPositionList.add(positionInFile);
+                            invertedIndex.put(string, existingPositionList);
+                        }
+                    }
+
+                    positionInFile++;
+
                 }
             } catch (Exception e) {
                 System.out.println("Wrong: " + e);
             }
+
+            for (String string : invertedIndex.keySet()) {
+                System.out.println(string + "--> " + invertedIndex.get(string));
+            }
+
         }
     }
 
