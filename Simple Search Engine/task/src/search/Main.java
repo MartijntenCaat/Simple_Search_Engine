@@ -94,6 +94,8 @@ public class Main {
                     String rawInput = fileScanner.nextLine();
                     String[] input = rawInput.split(" ");
 
+                    addStringToIndex(rawInput);
+
                     for (String string : input) {
                         if (!invertedIndex.containsKey(string)) {
                             ArrayList<Integer> position = new ArrayList<>();
@@ -105,18 +107,11 @@ public class Main {
                             invertedIndex.put(string, existingPositionList);
                         }
                     }
-
                     positionInFile++;
-
                 }
             } catch (Exception e) {
                 System.out.println("Wrong: " + e);
             }
-
-            for (String string : invertedIndex.keySet()) {
-                System.out.println(string + "--> " + invertedIndex.get(string));
-            }
-
         }
     }
 
