@@ -2,6 +2,8 @@ package search;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -9,11 +11,13 @@ public class Main {
     private boolean isUpAndRunning;
     private int indexSize;
     public ArrayList<String> dataStore;
+    private Map<String, ArrayList<Integer>> invertedIndex;
 
     public Main() {
         this.scanner = new Scanner(System.in);
         this.dataStore = new ArrayList<>();
         this.isUpAndRunning = true;
+        this.invertedIndex = new LinkedHashMap<>();
     }
 
     public int getIndexSize() {
