@@ -20,22 +20,12 @@ public class Main {
         this.invertedIndex = new LinkedHashMap<>();
     }
 
-    public int getIndexSize() {
-        return indexSize;
-    }
-
     private void setIndexSize(int indexSize) {
         this.indexSize = indexSize;
     }
 
     public void addStringToIndex(String input) {
         dataStore.add(input);
-    }
-
-    public void askForAndSetIndexSize() {
-        System.out.println("Enter the number of people:");
-        int indexSize = Integer.parseInt(scanner.nextLine());
-        setIndexSize(indexSize);
     }
 
     public String askQuery() {
