@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class Main {
     private final Scanner scanner;
     private boolean isUpAndRunning;
-    private int indexSize;
     public ArrayList<String> dataStore;
     private Map<String, ArrayList<Integer>> invertedIndex;
 
@@ -18,10 +17,6 @@ public class Main {
         this.dataStore = new ArrayList<>();
         this.isUpAndRunning = true;
         this.invertedIndex = new LinkedHashMap<>();
-    }
-
-    private void setIndexSize(int indexSize) {
-        this.indexSize = indexSize;
     }
 
     public void addStringToIndex(String input) {
