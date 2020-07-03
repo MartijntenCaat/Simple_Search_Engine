@@ -81,33 +81,35 @@ public class Main {
     public void processCommandLineArgs(String[] args) {
         if (args.length > 0 && args[0].equals("--data")) {
             String fileName = args[1];
-
             File file = new File(fileName);
 
-            int positionInFile = 0;
-
             try (Scanner fileScanner = new Scanner(file)) {
+                int positionInFile = 0;
                 while (fileScanner.hasNext()) {
                     String rawInput = fileScanner.nextLine();
                     String[] input = rawInput.split(" ");
 
                     addStringToIndex(rawInput);
+                    addItemToInvertedIndex(input, positionInFile);
 
-                    for (String string : input) {
-                        if (!invertedIndex.containsKey(string)) {
-                            ArrayList<Integer> position = new ArrayList<>();
-                            position.add(positionInFile);
-                            invertedIndex.put(string, position);
-                        } else {
-                            ArrayList<Integer> existingPositionList = invertedIndex.get(string);
-                            existingPositionList.add(positionInFile);
-                            invertedIndex.put(string, existingPositionList);
-                        }
-                    }
                     positionInFile++;
                 }
             } catch (Exception exception) {
                 System.out.println("Wrong: " + exception);
+            }
+        }
+    }
+
+    public void addItemToInvertedIndex(String[] input, int positionInFile) {
+        for (String string : input) {
+            if (!invertedIndex.containsKey(string)) {
+                ArrayList<Integer> position = new ArrayList<>();
+                position.add(positionInFile);
+                invertedIndex.put(string, position);
+            } else {
+                ArrayList<Integer> existingPositionList = invertedIndex.get(string);
+                existingPositionList.add(positionInFile);
+                invertedIndex.put(string, existingPositionList);
             }
         }
     }
