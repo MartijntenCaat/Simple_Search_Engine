@@ -39,7 +39,7 @@ public class Main {
         String action = scanner.nextLine();
 
         switch (action) {
-            case "1": // find a person
+            case "1":
                 findAPerson();
                 break;
             case "2":
@@ -57,23 +57,17 @@ public class Main {
     public void findAPerson() {
         String query = askQuery();
 
-        ArrayList<String> result = new ArrayList<>();
-        for (String s : dataStore) {
+        if (invertedIndex.containsKey(query)) {
 
-            if (s.toLowerCase().contains(query.toLowerCase())) {
-                result.add(s);
-            }
-        }
+            ArrayList<Integer> foundPeopleIndex = invertedIndex.get(query);
 
-        if (!result.isEmpty()) {
-            System.out.println("Found people:");
-            for (String s : result) {
-                System.out.println(s);
+            System.out.println(foundPeopleIndex.size() + " persons found:");
+            for (int index : foundPeopleIndex) {
+                System.out.println(dataStore.get(index));
             }
         } else {
             System.out.println("No matching people found.");
         }
-
     }
 
     public void exitApp() {
