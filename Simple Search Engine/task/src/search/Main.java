@@ -103,15 +103,15 @@ public class Main {
                     }
                     positionInFile++;
                 }
-            } catch (Exception e) {
-                System.out.println("Wrong: " + e);
+            } catch (Exception exception) {
+                System.out.println("Wrong: " + exception);
             }
         }
     }
 
     public void printDataStore() {
-        for (String s : dataStore) {
-            System.out.println(s);
+        for (String string : dataStore) {
+            System.out.println(string);
         }
     }
 
