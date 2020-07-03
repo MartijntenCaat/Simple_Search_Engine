@@ -2,36 +2,25 @@ package search;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
     private final Scanner scanner;
     private boolean isUpAndRunning;
-    private int indexSize;
     public ArrayList<String> dataStore;
+    private Map<String, ArrayList<Integer>> invertedIndex;
 
     public Main() {
         this.scanner = new Scanner(System.in);
         this.dataStore = new ArrayList<>();
         this.isUpAndRunning = true;
-    }
-
-    public int getIndexSize() {
-        return indexSize;
-    }
-
-    private void setIndexSize(int indexSize) {
-        this.indexSize = indexSize;
+        this.invertedIndex = new LinkedHashMap<>();
     }
 
     public void addStringToIndex(String input) {
         dataStore.add(input);
-    }
-
-    public void askForAndSetIndexSize() {
-        System.out.println("Enter the number of people:");
-        int indexSize = Integer.parseInt(scanner.nextLine());
-        setIndexSize(indexSize);
     }
 
     public String askQuery() {
@@ -50,7 +39,7 @@ public class Main {
         String action = scanner.nextLine();
 
         switch (action) {
-            case "1": // find a person
+            case "1":
                 findAPerson();
                 break;
             case "2":
@@ -68,23 +57,20 @@ public class Main {
     public void findAPerson() {
         String query = askQuery();
 
-        ArrayList<String> result = new ArrayList<>();
-        for (String s : dataStore) {
-
-            if (s.toLowerCase().contains(query.toLowerCase())) {
-                result.add(s);
-            }
-        }
-
-        if (!result.isEmpty()) {
-            System.out.println("Found people:");
-            for (String s : result) {
-                System.out.println(s);
-            }
+        if (invertedIndex.containsKey(query)) {
+            printFoundPeople(query);
         } else {
             System.out.println("No matching people found.");
         }
+    }
 
+    public void printFoundPeople(String query) {
+        ArrayList<Integer> foundPeopleIndex = invertedIndex.get(query);
+
+        System.out.println(foundPeopleIndex.size() + " persons found:");
+        for (int index : foundPeopleIndex) {
+            System.out.println(dataStore.get(index));
+        }
     }
 
     public void exitApp() {
@@ -95,23 +81,42 @@ public class Main {
     public void processCommandLineArgs(String[] args) {
         if (args.length > 0 && args[0].equals("--data")) {
             String fileName = args[1];
-
             File file = new File(fileName);
 
             try (Scanner fileScanner = new Scanner(file)) {
+                int positionInFile = 0;
                 while (fileScanner.hasNext()) {
-                    String input = fileScanner.nextLine();
-                    addStringToIndex(input);
+                    String rawInput = fileScanner.nextLine();
+                    String[] input = rawInput.split(" ");
+
+                    addStringToIndex(rawInput);
+                    addItemToInvertedIndex(input, positionInFile);
+
+                    positionInFile++;
                 }
-            } catch (Exception e) {
-                System.out.println("Wrong: " + e);
+            } catch (Exception exception) {
+                System.out.println("Wrong: " + exception);
+            }
+        }
+    }
+
+    public void addItemToInvertedIndex(String[] input, int positionInFile) {
+        for (String string : input) {
+            if (!invertedIndex.containsKey(string)) {
+                ArrayList<Integer> position = new ArrayList<>();
+                position.add(positionInFile);
+                invertedIndex.put(string, position);
+            } else {
+                ArrayList<Integer> existingPositionList = invertedIndex.get(string);
+                existingPositionList.add(positionInFile);
+                invertedIndex.put(string, existingPositionList);
             }
         }
     }
 
     public void printDataStore() {
-        for (String s : dataStore) {
-            System.out.println(s);
+        for (String string : dataStore) {
+            System.out.println(string);
         }
     }
 
