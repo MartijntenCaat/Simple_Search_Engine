@@ -58,15 +58,18 @@ public class Main {
         String query = askQuery();
 
         if (invertedIndex.containsKey(query)) {
-
-            ArrayList<Integer> foundPeopleIndex = invertedIndex.get(query);
-
-            System.out.println(foundPeopleIndex.size() + " persons found:");
-            for (int index : foundPeopleIndex) {
-                System.out.println(dataStore.get(index));
-            }
+            printFoundPeople(query);
         } else {
             System.out.println("No matching people found.");
+        }
+    }
+
+    public void printFoundPeople(String query) {
+        ArrayList<Integer> foundPeopleIndex = invertedIndex.get(query);
+
+        System.out.println(foundPeopleIndex.size() + " persons found:");
+        for (int index : foundPeopleIndex) {
+            System.out.println(dataStore.get(index));
         }
     }
 
