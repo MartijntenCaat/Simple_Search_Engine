@@ -38,8 +38,8 @@ class SearchMethodAny implements SearchMethod {
     /**
      * If the strategy is ANY, the program should print lines containing at least one word from the query.
      *
-     * @param query
-     * @return
+     * @param query from user input to be searched in search index.
+     * @return result list with zero, one or more results in the search index.
      */
     @Override
     public ArrayList<String> searchFor(String query) {
@@ -54,6 +54,12 @@ class SearchMethodAny implements SearchMethod {
 
 class SearchMethodNone implements SearchMethod {
 
+    /**
+     * If the strategy is NONE, the program should print lines that do not contain words from the query at all.
+     *
+     * @param query from user input to be searched in search index.
+     * @return result list with zero, one or more results in the search index.
+     */
     @Override
     public ArrayList<String> searchFor(String query) {
         System.out.println("NONE");
