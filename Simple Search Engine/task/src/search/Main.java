@@ -7,14 +7,18 @@ import java.util.Map;
 import java.util.Scanner;
 
 interface SearchMethod {
-
-
     ArrayList<String> searchFor(String query);
 }
 
 class SearchMethodAll implements SearchMethod {
-    private ArrayList<String> result;
+    ArrayList<String> result;
 
+    /**
+     * If the strategy is ALL, the program should print lines containing all words from the query.
+     *
+     * @param query from user input to be searched in search index.
+     * @return result list with zero, one or more results in the search index.
+     */
     @Override
     public ArrayList<String> searchFor(String query) {
         result = new ArrayList<>();
@@ -29,11 +33,22 @@ class SearchMethodAll implements SearchMethod {
 }
 
 class SearchMethodAny implements SearchMethod {
+    ArrayList<String> result;
 
+    /**
+     * If the strategy is ANY, the program should print lines containing at least one word from the query.
+     *
+     * @param query
+     * @return
+     */
     @Override
     public ArrayList<String> searchFor(String query) {
-        System.out.println("ANY");
-        return new ArrayList<>();
+        if (SearchIndex.invertedSearchIndex.containsKey(query)) {
+            for (int index : SearchIndex.invertedSearchIndex.get(query)) {
+                result.add(SearchIndex.rawSearchIndex.get(index));
+            }
+        }
+        return result;
     }
 }
 
