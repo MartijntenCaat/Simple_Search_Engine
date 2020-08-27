@@ -66,7 +66,16 @@ class SearchMethodNone implements SearchMethod {
     @Override
     public ArrayList<String> searchFor(String query) {
         result = new ArrayList<>();
-        System.out.println("NONE");
+
+        // dit werkt nog niet
+        for (String string : SearchIndex.invertedSearchIndex.keySet()) {
+            if (!string.equals(query)) {
+                ArrayList<Integer> resultIndexes = SearchIndex.invertedSearchIndex.get(string);
+                for (int index : resultIndexes)
+                    result.add(SearchIndex.rawSearchIndex.get(index));
+            }
+        }
+
         return new ArrayList<>();
     }
 }
