@@ -7,15 +7,26 @@ import java.util.Map;
 import java.util.Scanner;
 
 interface SearchMethod {
+
+
     ArrayList<String> searchFor(String query);
 }
 
 class SearchMethodAll implements SearchMethod {
+    private ArrayList<String> result;
 
     @Override
     public ArrayList<String> searchFor(String query) {
-        System.out.println("ALL");
-        return new ArrayList<>();
+        result = new ArrayList<>();
+
+        if (SearchIndex.invertedSearchIndex.containsKey(query)) {
+
+            for (int index : SearchIndex.invertedSearchIndex.get(query)) {
+                result.add(SearchIndex.rawSearchIndex.get(index));
+            }
+        }
+
+        return result;
     }
 }
 
@@ -47,31 +58,63 @@ class Searcher {
         this.method = method;
     }
 
-    public void searchFor(String query) {
-        this.method.searchFor(query);
+    public ArrayList<String> searchFor(String query) {
+        return method.searchFor(query);
     }
 }
 
 public class Main {
+    public static void main(String[] args) {
+        SearchApp app = new SearchApp();
+
+        app.processCommandLineArgs(args);
+        while (app.getIsUpAndRunning()) {
+            app.runMenuAction();
+        }
+    }
+}
+
+class SearchIndex {
+    public static ArrayList<String> rawSearchIndex;
+    public static Map<String, ArrayList<Integer>> invertedSearchIndex;
+
+    public SearchIndex() {
+        this.rawSearchIndex = new ArrayList<>();
+        this.invertedSearchIndex = new LinkedHashMap<>();
+    }
+}
+
+class SearchApp {
     private final Scanner scanner;
     private boolean isUpAndRunning;
-    public ArrayList<String> dataStore;
-    private Map<String, ArrayList<Integer>> invertedIndex;
+    private SearchIndex searchIndex;
+//    public ArrayList<String> dataStore;
+//    private Map<String, ArrayList<Integer>> invertedIndex;
 
-    public Main() {
+    public SearchApp() {
         this.scanner = new Scanner(System.in);
-        this.dataStore = new ArrayList<>();
         this.isUpAndRunning = true;
-        this.invertedIndex = new LinkedHashMap<>();
+//        this.dataStore = new ArrayList<>();
+//        this.invertedIndex = new LinkedHashMap<>();
+        this.searchIndex = new SearchIndex();
     }
 
-    public void addStringToIndex(String input) {
-        dataStore.add(input);
-    }
-
-    public String askQuery() {
+    public String askSearchQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
         return scanner.nextLine();
+    }
+
+    public String askSearchMethod() {
+        System.out.println("Select a matching strategy: ALL, ANY, NONE");
+        return scanner.nextLine();
+    }
+
+    public boolean getIsUpAndRunning() {
+        return isUpAndRunning;
+    }
+
+    public SearchIndex getSearchIndex() {
+        return searchIndex;
     }
 
     public void runMenuAction() {
@@ -87,7 +130,6 @@ public class Main {
         switch (action) {
             case "1":
                 findAPersonByMethod();
-//                findAPerson();
                 break;
             case "2":
                 printDataStore();
@@ -101,54 +143,27 @@ public class Main {
         }
     }
 
-    public void findAPerson() {
-        String query = askQuery();
-
-        if (invertedIndex.containsKey(query)) {
-            printFoundPeople(query);
-        } else {
-            System.out.println("No matching people found.");
-        }
-    }
-
     public void findAPersonByMethod() {
-        String method = scanner.nextLine();
-        String query = scanner.nextLine();
-
         Searcher searcher = new Searcher();
 
-        switch (method) {
+        switch (askSearchMethod()) {
             case "ALL":
                 searcher.setMethod(new SearchMethodAll());
-                searcher.searchFor(query);
                 break;
             case "ANY":
                 searcher.setMethod(new SearchMethodAny());
-                searcher.searchFor(query);
                 break;
             case "NONE":
                 searcher.setMethod(new SearchMethodNone());
-                searcher.searchFor(query);
                 break;
             default:
-                System.out.println("No correct method given: " + method);
+                System.out.println("No correct method given!");
                 break;
         }
 
-    }
+        ArrayList<String> result = searcher.searchFor(askSearchQuery());
 
-    public void printFoundPeople(String query) {
-        ArrayList<Integer> foundPeopleIndex = invertedIndex.get(query);
-
-        System.out.println(foundPeopleIndex.size() + " persons found:");
-        for (int index : foundPeopleIndex) {
-            System.out.println(dataStore.get(index));
-        }
-    }
-
-    public void exitApp() {
-        isUpAndRunning = false;
-        System.out.println("Bye!");
+        printFoundPeople(result);
     }
 
     public void processCommandLineArgs(String[] args) {
@@ -173,32 +188,39 @@ public class Main {
         }
     }
 
-    public void addItemToInvertedIndex(String[] input, int positionInFile) {
-        for (String string : input) {
-            if (!invertedIndex.containsKey(string)) {
-                ArrayList<Integer> position = new ArrayList<>();
-                position.add(positionInFile);
-                invertedIndex.put(string, position);
-            } else {
-                ArrayList<Integer> existingPositionList = invertedIndex.get(string);
-                existingPositionList.add(positionInFile);
-                invertedIndex.put(string, existingPositionList);
-            }
-        }
-    }
-
     public void printDataStore() {
-        for (String string : dataStore) {
+        for (String string : SearchIndex.rawSearchIndex) {
             System.out.println(string);
         }
     }
 
-    public static void main(String[] args) {
-        Main app = new Main();
+    public void exitApp() {
+        isUpAndRunning = false;
+        System.out.println("Bye!");
+    }
 
-        app.processCommandLineArgs(args);
-        while (app.isUpAndRunning) {
-            app.runMenuAction();
+    public void printFoundPeople(ArrayList<String> result) {
+        System.out.println(result.size() + " persons found:");
+        for (String singleResult : result) {
+            System.out.println(singleResult);
+        }
+    }
+
+    public void addStringToIndex(String input) {
+        SearchIndex.rawSearchIndex.add(input);
+    }
+
+    public void addItemToInvertedIndex(String[] input, int positionInFile) {
+        for (String string : input) {
+            if (!SearchIndex.invertedSearchIndex.containsKey(string)) {
+                ArrayList<Integer> position = new ArrayList<>();
+                position.add(positionInFile);
+                SearchIndex.invertedSearchIndex.put(string, position);
+            } else {
+                ArrayList<Integer> existingPositionList = SearchIndex.invertedSearchIndex.get(string);
+                existingPositionList.add(positionInFile);
+                SearchIndex.invertedSearchIndex.put(string, existingPositionList);
+            }
         }
     }
 }
