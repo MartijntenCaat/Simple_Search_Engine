@@ -7,42 +7,48 @@ import java.util.Map;
 import java.util.Scanner;
 
 interface SearchMethod {
-    void search(String query);
+    ArrayList<String> searchFor(String query);
 }
 
 class SearchMethodAll implements SearchMethod {
 
     @Override
-    public void search(String query) {
-
+    public ArrayList<String> searchFor(String query) {
+        System.out.println("ALL");
+        return new ArrayList<>();
     }
 }
 
 class SearchMethodAny implements SearchMethod {
 
     @Override
-    public void search(String query) {
-
+    public ArrayList<String> searchFor(String query) {
+        System.out.println("ANY");
+        return new ArrayList<>();
     }
 }
 
 class SearchMethodNone implements SearchMethod {
 
     @Override
-    public void search(String query) {
-
+    public ArrayList<String> searchFor(String query) {
+        System.out.println("NONE");
+        return new ArrayList<>();
     }
 }
 
 class Searcher {
     private SearchMethod method;
 
+    public Searcher() {
+    }
+
     public void setMethod(SearchMethod method) {
         this.method = method;
     }
 
-    public void search(String query) {
-        this.method.search(query);
+    public void searchFor(String query) {
+        this.method.searchFor(query);
     }
 }
 
@@ -80,7 +86,8 @@ public class Main {
 
         switch (action) {
             case "1":
-                findAPerson();
+                findAPersonByMethod();
+//                findAPerson();
                 break;
             case "2":
                 printDataStore();
@@ -102,6 +109,32 @@ public class Main {
         } else {
             System.out.println("No matching people found.");
         }
+    }
+
+    public void findAPersonByMethod() {
+        String method = scanner.nextLine();
+        String query = scanner.nextLine();
+
+        Searcher searcher = new Searcher();
+
+        switch (method) {
+            case "ALL":
+                searcher.setMethod(new SearchMethodAll());
+                searcher.searchFor(query);
+                break;
+            case "ANY":
+                searcher.setMethod(new SearchMethodAny());
+                searcher.searchFor(query);
+                break;
+            case "NONE":
+                searcher.setMethod(new SearchMethodNone());
+                searcher.searchFor(query);
+                break;
+            default:
+                System.out.println("No correct method given: " + method);
+                break;
+        }
+
     }
 
     public void printFoundPeople(String query) {
