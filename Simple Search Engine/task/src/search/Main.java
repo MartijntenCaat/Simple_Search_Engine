@@ -43,6 +43,8 @@ class SearchMethodAny implements SearchMethod {
      */
     @Override
     public ArrayList<String> searchFor(String query) {
+        result = new ArrayList<>();
+
         if (SearchIndex.invertedSearchIndex.containsKey(query)) {
             for (int index : SearchIndex.invertedSearchIndex.get(query)) {
                 result.add(SearchIndex.rawSearchIndex.get(index));
@@ -53,6 +55,7 @@ class SearchMethodAny implements SearchMethod {
 }
 
 class SearchMethodNone implements SearchMethod {
+    ArrayList<String> result;
 
     /**
      * If the strategy is NONE, the program should print lines that do not contain words from the query at all.
@@ -62,6 +65,7 @@ class SearchMethodNone implements SearchMethod {
      */
     @Override
     public ArrayList<String> searchFor(String query) {
+        result = new ArrayList<>();
         System.out.println("NONE");
         return new ArrayList<>();
     }
@@ -218,6 +222,11 @@ class SearchApp {
     }
 
     public void printFoundPeople(ArrayList<String> result) {
+        if (result.size() == 0) {
+            System.out.println("Nothing found");
+            return;
+        }
+
         System.out.println(result.size() + " persons found:");
         for (String singleResult : result) {
             System.out.println(singleResult);
