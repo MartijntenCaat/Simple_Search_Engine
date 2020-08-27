@@ -6,6 +6,46 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+interface SearchMethod {
+    void search(String query);
+}
+
+class SearchMethodAll implements SearchMethod {
+
+    @Override
+    public void search(String query) {
+
+    }
+}
+
+class SearchMethodAny implements SearchMethod {
+
+    @Override
+    public void search(String query) {
+
+    }
+}
+
+class SearchMethodNone implements SearchMethod {
+
+    @Override
+    public void search(String query) {
+
+    }
+}
+
+class Searcher {
+    private SearchMethod method;
+
+    public void setMethod(SearchMethod method) {
+        this.method = method;
+    }
+
+    public void search(String query) {
+        this.method.search(query);
+    }
+}
+
 public class Main {
     private final Scanner scanner;
     private boolean isUpAndRunning;
