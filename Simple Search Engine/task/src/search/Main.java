@@ -20,12 +20,10 @@ class SearchMethodAll implements SearchMethod {
         result = new ArrayList<>();
 
         if (SearchIndex.invertedSearchIndex.containsKey(query)) {
-
             for (int index : SearchIndex.invertedSearchIndex.get(query)) {
                 result.add(SearchIndex.rawSearchIndex.get(index));
             }
         }
-
         return result;
     }
 }
@@ -162,7 +160,6 @@ class SearchApp {
         }
 
         ArrayList<String> result = searcher.searchFor(askSearchQuery());
-
         printFoundPeople(result);
     }
 
