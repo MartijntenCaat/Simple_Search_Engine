@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 interface SearchMethod {
-    ArrayList<String> searchFor(String query);
+    ArrayList<String> searchFor(String[] queryParts);
 }
 
 class SearchMethodAll implements SearchMethod {
@@ -16,15 +16,17 @@ class SearchMethodAll implements SearchMethod {
     /**
      * If the strategy is ALL, the program should print lines containing all words from the query.
      *
-     * @param query from user input to be searched in search index.
+     * @param queryParts from user input to be searched in search index.
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String query) {
+    public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
-        if (SearchIndex.invertedSearchIndex.containsKey(query)) {
-            for (int index : SearchIndex.invertedSearchIndex.get(query)) {
+        // dit werkt nog niet
+
+        if (SearchIndex.invertedSearchIndex.containsKey(queryParts[0])) {
+            for (int index : SearchIndex.invertedSearchIndex.get(queryParts[0])) {
                 result.add(SearchIndex.rawSearchIndex.get(index));
             }
         }
@@ -38,15 +40,15 @@ class SearchMethodAny implements SearchMethod {
     /**
      * If the strategy is ANY, the program should print lines containing at least one word from the query.
      *
-     * @param query from user input to be searched in search index.
+     * @param queryParts from user input to be searched in search index.
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String query) {
+    public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
-        if (SearchIndex.invertedSearchIndex.containsKey(query)) {
-            for (int index : SearchIndex.invertedSearchIndex.get(query)) {
+        if (SearchIndex.invertedSearchIndex.containsKey(queryParts[0])) {
+            for (int index : SearchIndex.invertedSearchIndex.get(queryParts[0])) {
                 result.add(SearchIndex.rawSearchIndex.get(index));
             }
         }
@@ -60,16 +62,16 @@ class SearchMethodNone implements SearchMethod {
     /**
      * If the strategy is NONE, the program should print lines that do not contain words from the query at all.
      *
-     * @param query from user input to be searched in search index.
+     * @param queryParts from user input to be searched in search index.
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String query) {
+    public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
         // dit werkt nog niet
         for (String string : SearchIndex.invertedSearchIndex.keySet()) {
-            if (!string.equals(query)) {
+            if (!string.equals(queryParts[0])) {
                 ArrayList<Integer> resultIndexes = SearchIndex.invertedSearchIndex.get(string);
                 for (int index : resultIndexes)
                     result.add(SearchIndex.rawSearchIndex.get(index));
@@ -90,8 +92,8 @@ class Searcher {
         this.method = method;
     }
 
-    public ArrayList<String> searchFor(String query) {
-        return method.searchFor(query);
+    public ArrayList<String> searchFor(String[] queryParts) {
+        return method.searchFor(queryParts);
     }
 }
 
@@ -131,9 +133,9 @@ class SearchApp {
         this.searchIndex = new SearchIndex();
     }
 
-    public String askSearchQuery() {
+    public String[] askSearchQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
-        return scanner.nextLine();
+        return scanner.nextLine().split(" ");
     }
 
     public String askSearchMethod() {
