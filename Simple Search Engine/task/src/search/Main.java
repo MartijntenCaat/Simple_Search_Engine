@@ -113,24 +113,19 @@ class SearchIndex {
     public static Map<String, ArrayList<Integer>> invertedSearchIndex;
 
     public SearchIndex() {
-        this.rawSearchIndex = new ArrayList<>();
-        this.invertedSearchIndex = new LinkedHashMap<>();
+        rawSearchIndex = new ArrayList<>();
+        invertedSearchIndex = new LinkedHashMap<>();
     }
 }
 
 class SearchApp {
     private final Scanner scanner;
     private boolean isUpAndRunning;
-    private SearchIndex searchIndex;
-//    public ArrayList<String> dataStore;
-//    private Map<String, ArrayList<Integer>> invertedIndex;
 
     public SearchApp() {
         this.scanner = new Scanner(System.in);
         this.isUpAndRunning = true;
-//        this.dataStore = new ArrayList<>();
-//        this.invertedIndex = new LinkedHashMap<>();
-        this.searchIndex = new SearchIndex();
+        SearchIndex searchIndex = new SearchIndex();
     }
 
     public String[] askSearchQuery() {
@@ -145,10 +140,6 @@ class SearchApp {
 
     public boolean getIsUpAndRunning() {
         return isUpAndRunning;
-    }
-
-    public SearchIndex getSearchIndex() {
-        return searchIndex;
     }
 
     public void runMenuAction() {
