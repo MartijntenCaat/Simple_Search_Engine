@@ -23,7 +23,7 @@ class SearchMethodAll implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
-        // dit werkt nog niet
+        // TODO: Fix this method
 
         if (SearchIndex.invertedSearchIndex.containsKey(queryParts[0])) {
             for (int index : SearchIndex.invertedSearchIndex.get(queryParts[0])) {
@@ -69,7 +69,7 @@ class SearchMethodNone implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
-        // dit werkt nog niet
+        // TODO Fix this method
         for (String string : SearchIndex.invertedSearchIndex.keySet()) {
             if (!string.equals(queryParts[0])) {
                 ArrayList<Integer> resultIndexes = SearchIndex.invertedSearchIndex.get(string);
@@ -125,7 +125,6 @@ class SearchApp {
     public SearchApp() {
         this.scanner = new Scanner(System.in);
         this.isUpAndRunning = true;
-        SearchIndex searchIndex = new SearchIndex();
     }
 
     public String[] askSearchQuery() {
