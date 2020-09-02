@@ -214,9 +214,7 @@ class SearchApp {
     }
 
     public void printDataStore() {
-        for (String string : SearchIndex.rawSearchIndex) {
-            System.out.println(string);
-        }
+        SearchIndex.rawSearchIndex.forEach((string -> System.out.println(string)));
     }
 
     public void exitApp() {
@@ -231,9 +229,7 @@ class SearchApp {
         }
 
         System.out.println(result.size() + " persons found:");
-        for (String singleResult : result) {
-            System.out.println(singleResult);
-        }
+        result.forEach((singleResult) -> System.out.println(singleResult));
     }
 
     public void addStringToIndex(String input) {
