@@ -1,10 +1,7 @@
 package search;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 interface SearchMethod {
     ArrayList<String> searchFor(String[] queryParts);
@@ -23,14 +20,19 @@ class SearchMethodAll implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
-        // TODO: Fix this method
+        for (int i = 0; i < queryParts.length; i++) {
 
-        if (SearchIndex.invertedSearchIndex.containsKey(queryParts[0])) {
-            for (int index : SearchIndex.invertedSearchIndex.get(queryParts[0])) {
-                result.add(SearchIndex.rawSearchIndex.get(index));
+            if (SearchIndex.invertedSearchIndex.containsKey(queryParts[i])) {
+                for (int index : SearchIndex.invertedSearchIndex.get(queryParts[i])) {
+                    result.add(SearchIndex.rawSearchIndex.get(index));
+                }
+            } else {
+                return new ArrayList<>();
             }
         }
-        return result;
+
+        LinkedHashSet<String> results = new LinkedHashSet<>(result);
+        return new ArrayList<>(results);
     }
 }
 
