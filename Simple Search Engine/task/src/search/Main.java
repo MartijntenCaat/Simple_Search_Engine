@@ -121,10 +121,12 @@ class SearchIndex {
 class SearchApp {
     private final Scanner scanner;
     private boolean isUpAndRunning;
+    private SearchIndex searchIndex;
 
     public SearchApp() {
         this.scanner = new Scanner(System.in);
         this.isUpAndRunning = true;
+        this.searchIndex = new SearchIndex();
     }
 
     public String[] askSearchQuery() {
@@ -206,7 +208,7 @@ class SearchApp {
                     positionInFile++;
                 }
             } catch (Exception exception) {
-                System.out.println("Wrong: " + exception);
+                System.out.println("Exception: " + exception);
             }
         }
     }
