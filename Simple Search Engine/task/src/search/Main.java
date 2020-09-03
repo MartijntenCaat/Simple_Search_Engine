@@ -48,9 +48,12 @@ class SearchMethodAny implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
-        if (SearchIndex.invertedSearchIndex.containsKey(queryParts[0])) {
-            for (int index : SearchIndex.invertedSearchIndex.get(queryParts[0])) {
-                result.add(SearchIndex.rawSearchIndex.get(index));
+        for (String part : queryParts) {
+            if (SearchIndex.invertedSearchIndex.keySet().contains(part)) {
+                ArrayList<Integer> addableIndexNumbers = new ArrayList(SearchIndex.invertedSearchIndex.get(part));
+                for (int index : addableIndexNumbers) {
+                    result.add(SearchIndex.rawSearchIndex.get(index));
+                }
             }
         }
         return result;
