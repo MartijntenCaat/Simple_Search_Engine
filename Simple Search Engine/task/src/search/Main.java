@@ -30,9 +30,8 @@ class SearchMethodAll implements SearchMethod {
                 return new ArrayList<>();
             }
         }
-
-        LinkedHashSet<String> results = new LinkedHashSet<>(result);
-        return new ArrayList<>(results);
+        LinkedHashSet<String> resultHashSet = new LinkedHashSet<>(result);
+        return new ArrayList<>(resultHashSet);
     }
 }
 
