@@ -48,14 +48,22 @@ class SearchMethodAny implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>();
 
+        ArrayList<Integer> addableIndexNumbers = new ArrayList();
+
         for (String part : queryParts) {
             if (SearchIndex.invertedSearchIndex.keySet().contains(part)) {
-                ArrayList<Integer> addableIndexNumbers = new ArrayList(SearchIndex.invertedSearchIndex.get(part));
-                for (int index : addableIndexNumbers) {
-                    result.add(SearchIndex.rawSearchIndex.get(index));
+                for (int i : SearchIndex.invertedSearchIndex.get(part)) {
+                    addableIndexNumbers.add(i);
                 }
             }
         }
+
+        LinkedHashSet<Integer> addableIndexNumbersSet = new LinkedHashSet<>(addableIndexNumbers);
+
+        for (int i : addableIndexNumbersSet) {
+            result.add(SearchIndex.rawSearchIndex.get(i));
+        }
+
         return result;
     }
 }
@@ -143,7 +151,7 @@ class SearchApp {
 
     public String[] askSearchQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
-        return scanner.nextLine().split(" ");
+        return scanner.nextLine().toLowerCase().split(" ");
     }
 
     public String askSearchMethod() {
@@ -174,6 +182,13 @@ class SearchApp {
                 break;
             case "0":
                 exitApp();
+                break;
+            case "4":
+
+                for (String string : SearchIndex.invertedSearchIndex.keySet()) {
+                    System.out.println(string + SearchIndex.invertedSearchIndex.get(string).toString());
+                }
+
                 break;
             default:
                 System.out.println("Incorrect option! Try again.");
@@ -212,7 +227,7 @@ class SearchApp {
                 int positionInFile = 0;
                 while (fileScanner.hasNext()) {
                     String rawInput = fileScanner.nextLine();
-                    String[] input = rawInput.split(" ");
+                    String[] input = rawInput.toLowerCase().split(" ");
 
                     addStringToIndex(rawInput);
                     addItemToInvertedIndex(input, positionInFile);
