@@ -68,18 +68,26 @@ class SearchMethodNone implements SearchMethod {
      */
     @Override
     public ArrayList<String> searchFor(String[] queryParts) {
-        result = new ArrayList<>();
+        result = new ArrayList<>(SearchIndex.rawSearchIndex);
 
-        // TODO Fix this method
-        for (String string : SearchIndex.invertedSearchIndex.keySet()) {
-            if (!string.equals(queryParts[0])) {
-                ArrayList<Integer> resultIndexes = SearchIndex.invertedSearchIndex.get(string);
-                for (int index : resultIndexes)
-                    result.add(SearchIndex.rawSearchIndex.get(index));
+        ArrayList<Integer> removableIndexNumbers = new ArrayList();
+
+        for (String part : queryParts) {
+            if (SearchIndex.invertedSearchIndex.keySet().contains(part)) {
+                ArrayList getArrayList = new ArrayList(SearchIndex.invertedSearchIndex.get(part));
+                for (Object i : getArrayList) {
+                    removableIndexNumbers.add((Integer) i);
+                }
             }
         }
 
-        return new ArrayList<>();
+        LinkedHashSet<Integer> removableIndexNumbersSet = new LinkedHashSet<>(removableIndexNumbers);
+
+        for (int i : removableIndexNumbersSet) {
+            result.remove(i);
+        }
+
+        return result;
     }
 }
 
