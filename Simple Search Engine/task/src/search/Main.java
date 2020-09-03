@@ -246,7 +246,7 @@ class SearchApp {
 
     public void exitApp() {
         isUpAndRunning = false;
-        System.out.println("Bye!");
+        //System.out.println("Bye!");
     }
 
     public void printFoundPeople(ArrayList<String> result) {
