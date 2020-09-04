@@ -81,23 +81,6 @@ class SearchMethodNone implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>(SearchIndex.rawSearchIndex);
 
-        ArrayList<Integer> removableIndexNumbers = new ArrayList();
-
-        for (String part : queryParts) {
-            if (SearchIndex.invertedSearchIndex.keySet().contains(part)) {
-                ArrayList getArrayList = new ArrayList(SearchIndex.invertedSearchIndex.get(part));
-                for (Object i : getArrayList) {
-                    removableIndexNumbers.add((Integer) i);
-                }
-            }
-        }
-
-        LinkedHashSet<Integer> removableIndexNumbersSet = new LinkedHashSet<>(removableIndexNumbers);
-
-        for (int i : removableIndexNumbersSet) {
-            result.remove(i);
-        }
-
         return result;
     }
 }
