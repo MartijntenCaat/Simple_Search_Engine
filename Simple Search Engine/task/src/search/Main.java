@@ -81,6 +81,8 @@ class SearchMethodNone implements SearchMethod {
     public ArrayList<String> searchFor(String[] queryParts) {
         result = new ArrayList<>(SearchIndex.rawSearchIndex);
 
+        // TODO: if queryPart is in index, remove whole line from index.
+
         return result;
     }
 }
