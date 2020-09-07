@@ -235,7 +235,7 @@ class SearchApp {
     }
 
     public void printFoundPeople(ArrayList<String> result) {
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             System.out.println("Nothing found");
             return;
         }
