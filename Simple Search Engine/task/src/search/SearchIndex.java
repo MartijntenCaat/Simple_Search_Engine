@@ -12,4 +12,12 @@ public class SearchIndex {
         rawSearchIndex = new ArrayList<>();
         invertedSearchIndex = new LinkedHashMap<>();
     }
+
+    public ArrayList<String> getRawSearchIndex() {
+        return rawSearchIndex;
+    }
+
+    public Map<String, ArrayList<Integer>> getInvertedSearchIndex() {
+        return invertedSearchIndex;
+    }
 }

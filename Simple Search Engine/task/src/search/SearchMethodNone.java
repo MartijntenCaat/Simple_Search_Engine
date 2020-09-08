@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 public class SearchMethodNone implements ISearchMethod {
     ArrayList<String> result;
 
+
     /**
      * If the strategy is NONE, the program should print lines that do not contain words from the query at all.
      *

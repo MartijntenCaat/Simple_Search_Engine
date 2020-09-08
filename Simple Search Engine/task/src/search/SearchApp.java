@@ -15,6 +15,10 @@ public class SearchApp {
         this.searchIndex = new SearchIndex();
     }
 
+    public SearchIndex getSearchIndex() {
+        return searchIndex;
+    }
+
     public String[] askSearchQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
         return scanner.nextLine().toLowerCase().split(" ");
@@ -99,7 +103,7 @@ public class SearchApp {
     }
 
     public void printDataStore() {
-        SearchIndex.rawSearchIndex.forEach((string -> System.out.println(string)));
+        searchIndex.getRawSearchIndex().forEach((System.out::println));
     }
 
     public void exitApp() {
@@ -114,23 +118,23 @@ public class SearchApp {
         }
 
         System.out.println(result.size() + " persons found:");
-        result.forEach((singleResult) -> System.out.println(singleResult));
+        result.forEach(System.out::println);
     }
 
     public void addStringToIndex(String input) {
-        SearchIndex.rawSearchIndex.add(input);
+        searchIndex.getRawSearchIndex().add(input);
     }
 
     public void addItemToInvertedIndex(String[] input, int positionInFile) {
         for (String string : input) {
-            if (!SearchIndex.invertedSearchIndex.containsKey(string)) {
+            if (!searchIndex.getInvertedSearchIndex().containsKey(string)) {
                 ArrayList<Integer> position = new ArrayList<>();
                 position.add(positionInFile);
-                SearchIndex.invertedSearchIndex.put(string, position);
+                searchIndex.getInvertedSearchIndex().put(string, position);
             } else {
-                ArrayList<Integer> existingPositionList = SearchIndex.invertedSearchIndex.get(string);
+                ArrayList<Integer> existingPositionList = searchIndex.getInvertedSearchIndex().get(string);
                 existingPositionList.add(positionInFile);
-                SearchIndex.invertedSearchIndex.put(string, existingPositionList);
+                searchIndex.getInvertedSearchIndex().put(string, existingPositionList);
             }
         }
     }
