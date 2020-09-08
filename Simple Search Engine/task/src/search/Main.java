@@ -5,6 +5,7 @@ public class Main {
         SearchApp app = new SearchApp();
 
         app.processCommandLineArgs(args);
+
         while (app.getIsUpAndRunning()) {
             app.runMenuAction();
         }
