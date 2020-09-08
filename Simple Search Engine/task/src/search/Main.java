@@ -5,9 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-interface SearchMethod {
-    ArrayList<String> searchFor(String[] queryParts);
-}
 
 class SearchMethodAll implements SearchMethod {
     ArrayList<String> result;
