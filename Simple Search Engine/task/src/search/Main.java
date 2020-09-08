@@ -79,10 +79,24 @@ class SearchMethodNone implements SearchMethod {
      */
     @Override
     public ArrayList<String> searchFor(String[] queryParts) {
-        result = new ArrayList<>(SearchIndex.rawSearchIndex);
+        result = new ArrayList<>();
+        LinkedHashSet<Integer> removableLineNumbers = new LinkedHashSet<>();
 
-        // TODO: if queryPart is in index, remove whole line from index.
+        for (String part : queryParts) {
+            if (SearchIndex.invertedSearchIndex.containsKey(part)) {
+                ArrayList<Integer> lineNumbers = SearchIndex.invertedSearchIndex.get(part);
 
+                for (int number : lineNumbers) {
+                    removableLineNumbers.add(number);
+                }
+            }
+        }
+
+        for (int i = 0; i < SearchIndex.rawSearchIndex.size(); i++) {
+            if (!removableLineNumbers.contains(i)) {
+                result.add(SearchIndex.rawSearchIndex.get(i));
+            }
+        }
         return result;
     }
 }
@@ -155,7 +169,6 @@ class SearchApp {
                 "0. Exit";
 
         System.out.println(menu);
-
         String action = scanner.nextLine();
 
         switch (action) {
@@ -167,13 +180,6 @@ class SearchApp {
                 break;
             case "0":
                 exitApp();
-                break;
-            case "4":
-
-                for (String string : SearchIndex.invertedSearchIndex.keySet()) {
-                    System.out.println(string + SearchIndex.invertedSearchIndex.get(string).toString());
-                }
-
                 break;
             default:
                 System.out.println("Incorrect option! Try again.");
