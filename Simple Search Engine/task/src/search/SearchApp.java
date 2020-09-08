@@ -7,16 +7,12 @@ import java.util.Scanner;
 public class SearchApp {
     private final Scanner scanner;
     private boolean isUpAndRunning;
-    private SearchIndex searchIndex;
+    private final SearchIndex searchIndex;
 
     public SearchApp() {
         this.scanner = new Scanner(System.in);
         this.isUpAndRunning = true;
         this.searchIndex = new SearchIndex();
-    }
-
-    public SearchIndex getSearchIndex() {
-        return searchIndex;
     }
 
     public String[] askSearchQuery() {
