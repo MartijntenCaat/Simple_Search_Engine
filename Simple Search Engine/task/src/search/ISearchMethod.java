@@ -2,6 +2,6 @@ package search;
 
 import java.util.ArrayList;
 
-public interface SearchMethod {
+public interface ISearchMethod {
     ArrayList<String> searchFor(String[] queryParts);
 }
