@@ -19,7 +19,7 @@ public class SearchMethodAny implements ISearchMethod {
         ArrayList<Integer> addableIndexNumbers = new ArrayList();
 
         for (String part : queryParts) {
-            if (SearchIndex.invertedSearchIndex.keySet().contains(part)) {
+            if (SearchIndex.invertedSearchIndex.containsKey(part)) {
                 for (int i : SearchIndex.invertedSearchIndex.get(part)) {
                     addableIndexNumbers.add(i);
                 }

@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class SearchApp {
     private final Scanner scanner;
-    private boolean isUpAndRunning;
     private final SearchIndex searchIndex;
+    private boolean isUpAndRunning;
 
     public SearchApp() {
         this.scanner = new Scanner(System.in);
