@@ -2,12 +2,12 @@ package search;
 
 public class Main {
     public static void main(String[] args) {
-        SearchApp app = new SearchApp();
+        SearchApp searchApp = new SearchApp();
 
-        app.processCommandLineArgs(args);
+        searchApp.processCommandLineArgs(args);
 
-        while (app.isUpAndRunning()) {
-            app.runMenuAction();
+        while (searchApp.isUpAndRunning()) {
+            searchApp.runMenuAction();
         }
     }
 }

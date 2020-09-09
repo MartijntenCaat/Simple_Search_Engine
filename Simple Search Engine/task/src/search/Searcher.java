@@ -12,7 +12,7 @@ public class Searcher {
         this.method = method;
     }
 
-    public ArrayList<String> searchFor(String[] queryParts) {
-        return method.searchFor(queryParts);
+    public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
+        return method.searchFor(queryParts, searchIndex);
     }
 }

@@ -72,7 +72,7 @@ public class SearchApp {
                 break;
         }
 
-        ArrayList<String> result = searcher.searchFor(askSearchQuery());
+        ArrayList<String> result = searcher.searchFor(askSearchQuery(), searchIndex);
         printFoundPeople(result);
     }
 

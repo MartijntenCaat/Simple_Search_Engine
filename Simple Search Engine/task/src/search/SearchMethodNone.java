@@ -14,13 +14,13 @@ public class SearchMethodNone implements ISearchMethod {
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String[] queryParts) {
+    public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
         result = new ArrayList<>();
         LinkedHashSet<Integer> removableLineNumbers = new LinkedHashSet<>();
 
         for (String part : queryParts) {
-            if (SearchIndex.invertedSearchIndex.containsKey(part)) {
-                ArrayList<Integer> lineNumbers = SearchIndex.invertedSearchIndex.get(part);
+            if (searchIndex.getInvertedSearchIndex().containsKey(part)) {
+                ArrayList<Integer> lineNumbers = searchIndex.getInvertedSearchIndex().get(part);
 
                 for (int number : lineNumbers) {
                     removableLineNumbers.add(number);
@@ -28,9 +28,9 @@ public class SearchMethodNone implements ISearchMethod {
             }
         }
 
-        for (int i = 0; i < SearchIndex.rawSearchIndex.size(); i++) {
+        for (int i = 0; i < searchIndex.getRawSearchIndex().size(); i++) {
             if (!removableLineNumbers.contains(i)) {
-                result.add(SearchIndex.rawSearchIndex.get(i));
+                result.add(searchIndex.getRawSearchIndex().get(i));
             }
         }
         return result;

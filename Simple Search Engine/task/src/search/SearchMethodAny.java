@@ -13,14 +13,14 @@ public class SearchMethodAny implements ISearchMethod {
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String[] queryParts) {
+    public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
         result = new ArrayList<>();
 
         ArrayList<Integer> addableIndexNumbers = new ArrayList();
 
         for (String part : queryParts) {
-            if (SearchIndex.invertedSearchIndex.containsKey(part)) {
-                for (int i : SearchIndex.invertedSearchIndex.get(part)) {
+            if (searchIndex.getInvertedSearchIndex().containsKey(part)) {
+                for (int i : searchIndex.getInvertedSearchIndex().get(part)) {
                     addableIndexNumbers.add(i);
                 }
             }
@@ -29,7 +29,7 @@ public class SearchMethodAny implements ISearchMethod {
         LinkedHashSet<Integer> addableIndexNumbersSet = new LinkedHashSet<>(addableIndexNumbers);
 
         for (int i : addableIndexNumbersSet) {
-            result.add(SearchIndex.rawSearchIndex.get(i));
+            result.add(searchIndex.getRawSearchIndex().get(i));
         }
 
         return result;

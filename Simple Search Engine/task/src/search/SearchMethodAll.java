@@ -13,14 +13,14 @@ public class SearchMethodAll implements ISearchMethod {
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String[] queryParts) {
+    public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
         result = new ArrayList<>();
 
         for (int i = 0; i < queryParts.length; i++) {
 
-            if (SearchIndex.invertedSearchIndex.containsKey(queryParts[i])) {
-                for (int index : SearchIndex.invertedSearchIndex.get(queryParts[i])) {
-                    result.add(SearchIndex.rawSearchIndex.get(index));
+            if (searchIndex.getInvertedSearchIndex().containsKey(queryParts[i])) {
+                for (int index : searchIndex.getInvertedSearchIndex().get(queryParts[i])) {
+                    result.add(searchIndex.getRawSearchIndex().get(index));
                 }
             } else {
                 return new ArrayList<>();
