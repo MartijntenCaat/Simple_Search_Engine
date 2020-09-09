@@ -15,21 +15,21 @@ public class SearchApp {
         this.searchIndex = new SearchIndex();
     }
 
-    public String[] askSearchQuery() {
+    private String[] askSearchQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
         return scanner.nextLine().toLowerCase().split(" ");
     }
 
-    public String askSearchMethod() {
+    private String askSearchMethod() {
         System.out.println("Select a matching strategy: ALL, ANY, NONE");
         return scanner.nextLine();
     }
 
-    public boolean getIsUpAndRunning() {
+    boolean getIsUpAndRunning() {
         return isUpAndRunning;
     }
 
-    public void runMenuAction() {
+    void runMenuAction() {
         final String menu = "\n=== Menu ===\n" +
                 "1. Find a person\n" +
                 "2. Print all people\n" +
@@ -54,7 +54,7 @@ public class SearchApp {
         }
     }
 
-    public void findAPersonByMethod() {
+    private void findAPersonByMethod() {
         Searcher searcher = new Searcher();
 
         switch (askSearchMethod()) {
@@ -76,7 +76,7 @@ public class SearchApp {
         printFoundPeople(result);
     }
 
-    public void processCommandLineArgs(String[] args) {
+    void processCommandLineArgs(String[] args) {
         if (args.length > 0 && args[0].equals("--data")) {
             String fileName = args[1];
             File file = new File(fileName);
@@ -98,16 +98,16 @@ public class SearchApp {
         }
     }
 
-    public void printDataStore() {
+    private void printDataStore() {
         searchIndex.getRawSearchIndex().forEach((System.out::println));
     }
 
-    public void exitApp() {
+    private void exitApp() {
         isUpAndRunning = false;
         System.out.println("Bye!");
     }
 
-    public void printFoundPeople(ArrayList<String> result) {
+    private void printFoundPeople(ArrayList<String> result) {
         if (result.isEmpty()) {
             System.out.println("Nothing found");
             return;
@@ -117,11 +117,11 @@ public class SearchApp {
         result.forEach(System.out::println);
     }
 
-    public void addStringToIndex(String input) {
+    private void addStringToIndex(String input) {
         searchIndex.getRawSearchIndex().add(input);
     }
 
-    public void addItemToInvertedIndex(String[] input, int positionInFile) {
+    private void addItemToInvertedIndex(String[] input, int positionInFile) {
         for (String string : input) {
             if (!searchIndex.getInvertedSearchIndex().containsKey(string)) {
                 ArrayList<Integer> position = new ArrayList<>();
