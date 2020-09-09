@@ -57,7 +57,8 @@ public class SearchApp {
     private void findAPersonByMethod() {
         Searcher searcher = new Searcher();
 
-        switch (askSearchMethod()) {
+        String searchMethod = askSearchMethod();
+        switch (searchMethod) {
             case "ALL":
                 searcher.setMethod(new SearchMethodAll());
                 break;
@@ -72,8 +73,9 @@ public class SearchApp {
                 break;
         }
 
-        ArrayList<String> result = searcher.searchFor(askSearchQuery(), searchIndex);
-        printFoundPeople(result);
+        String[] searchQuery = askSearchQuery();
+        ArrayList<String> searchResult = searcher.searchFor(searchQuery, searchIndex);
+        printFoundPeople(searchResult);
     }
 
     void processCommandLineArgs(String[] args) {
