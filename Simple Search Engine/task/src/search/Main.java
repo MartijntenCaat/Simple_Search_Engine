@@ -6,7 +6,7 @@ public class Main {
 
         app.processCommandLineArgs(args);
 
-        while (app.getIsUpAndRunning()) {
+        while (app.isUpAndRunning()) {
             app.runMenuAction();
         }
     }

@@ -25,7 +25,7 @@ public class SearchApp {
         return scanner.nextLine();
     }
 
-    boolean getIsUpAndRunning() {
+    boolean isUpAndRunning() {
         return isUpAndRunning;
     }
 
