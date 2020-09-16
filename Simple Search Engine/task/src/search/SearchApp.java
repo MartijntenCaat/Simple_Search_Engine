@@ -63,6 +63,9 @@ public class SearchApp {
         }
     }
 
+    /**
+     * Method that does the searching, based on the chosen search algorithm, the algorithm is changed on runtime.
+     */
     private void findAPersonByMethod() {
         String searchMethod = askSearchMethod();
 
