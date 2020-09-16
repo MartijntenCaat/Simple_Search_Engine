@@ -97,8 +97,8 @@ public class SearchApp {
                     String rawInput = fileScanner.nextLine();
                     String[] input = rawInput.toLowerCase().split(" ");
 
-                    addStringToIndex(rawInput);
-                    addItemToInvertedIndex(input, positionInFile);
+                    searchIndex.addStringToRawIndex(rawInput);
+                    searchIndex.addItemToInvertedIndex(input, positionInFile);
 
                     positionInFile++;
                 }
@@ -127,21 +127,5 @@ public class SearchApp {
         result.forEach(System.out::println);
     }
 
-    private void addStringToIndex(String input) {
-        searchIndex.getRawSearchIndex().add(input);
-    }
 
-    private void addItemToInvertedIndex(String[] input, int positionInFile) {
-        for (String string : input) {
-            if (!searchIndex.getInvertedSearchIndex().containsKey(string)) {
-                ArrayList<Integer> position = new ArrayList<>();
-                position.add(positionInFile);
-                searchIndex.getInvertedSearchIndex().put(string, position);
-            } else {
-                ArrayList<Integer> existingPositionList = searchIndex.getInvertedSearchIndex().get(string);
-                existingPositionList.add(positionInFile);
-                searchIndex.getInvertedSearchIndex().put(string, existingPositionList);
-            }
-        }
-    }
 }

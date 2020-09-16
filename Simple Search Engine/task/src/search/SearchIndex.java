@@ -23,4 +23,23 @@ public class SearchIndex {
     public Map<String, ArrayList<Integer>> getInvertedSearchIndex() {
         return invertedSearchIndex;
     }
+
+    public void addStringToRawIndex(String input) {
+        rawSearchIndex.add(input);
+    }
+
+    public void addItemToInvertedIndex(String[] input, int positionInFile) {
+        for (String string : input) {
+            if (!invertedSearchIndex.containsKey(string)) {
+                ArrayList<Integer> position = new ArrayList<>();
+                position.add(positionInFile);
+                invertedSearchIndex.put(string, position);
+            } else {
+                ArrayList<Integer> existingPositionList = invertedSearchIndex.get(string);
+                existingPositionList.add(positionInFile);
+                invertedSearchIndex.put(string, existingPositionList);
+            }
+        }
+
+    }
 }
