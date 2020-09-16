@@ -86,6 +86,12 @@ public class SearchApp {
         printFoundPeople(searchResult);
     }
 
+    /**
+     * If the program is started with commandline args, this method will process them.
+     * It reads the file and puts the file lines in the searchIndex.
+     *
+     * @param args commandline arguments
+     */
     void processCommandLineArgs(String[] args) {
         if (args[0].equals("--data")) {
             File file = new File(args[1]);
