@@ -87,9 +87,8 @@ public class SearchApp {
     }
 
     void processCommandLineArgs(String[] args) {
-        if (args.length > 0 && args[0].equals("--data")) {
-            String fileName = args[1];
-            File file = new File(fileName);
+        if (args[0].equals("--data")) {
+            File file = new File(args[1]);
 
             try (Scanner fileScanner = new Scanner(file)) {
                 int positionInFile = 0;
@@ -126,6 +125,5 @@ public class SearchApp {
         System.out.println(result.size() + " persons found:");
         result.forEach(System.out::println);
     }
-
 
 }
