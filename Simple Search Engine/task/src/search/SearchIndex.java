@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Class of the index that has a raw index and a inverted index to search for specific words
+ */
 public class SearchIndex {
     private final ArrayList<String> rawSearchIndex;
     private final Map<String, ArrayList<Integer>> invertedSearchIndex;
