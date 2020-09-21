@@ -16,11 +16,11 @@ public class SearchApp {
         this.searchIndex = new SearchIndex();
     }
 
-    public void setMethod(ISearchMethod method) {
+    private void setMethod(ISearchMethod method) {
         this.method = method;
     }
 
-    public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
+    private ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
         return method.searchFor(queryParts, searchIndex);
     }
 
@@ -34,11 +34,11 @@ public class SearchApp {
         return scanner.nextLine();
     }
 
-    boolean isUpAndRunning() {
+    public boolean isUpAndRunning() {
         return isUpAndRunning;
     }
 
-    void runMenuAction() {
+    public void runMenuAction() {
         final String menu = "\n=== Menu ===\n" +
                 "1. Find a person\n" +
                 "2. Print all people\n" +
