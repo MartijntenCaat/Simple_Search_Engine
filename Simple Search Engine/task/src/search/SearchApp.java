@@ -59,9 +59,27 @@ public class SearchApp {
      * Method that does the searching, based on the chosen search algorithm, the algorithm is changed on runtime.
      */
     private void findAPersonByMethod() {
-        String searchMethod = askSearchMethod();
+        String requestedSearchMethod = askSearchMethod();
+        boolean isMethodSet = setSearchMethod(requestedSearchMethod);
 
-        switch (searchMethod) {
+        if (!isMethodSet) {
+            System.out.println("No correct method given! Try Again");
+            return;
+        }
+
+        String[] searchQuery = askSearchQuery();
+        ArrayList<String> searchResult = method.searchFor(searchQuery, searchIndex);
+        printFoundPeople(searchResult);
+    }
+
+    /**
+     * Method sets the user requested search method (algo).
+     *
+     * @param requestedSearchMethod string based on user input.
+     * @return true if existing method is set, false if none existing method is set.
+     */
+    private boolean setSearchMethod(String requestedSearchMethod) {
+        switch (requestedSearchMethod) {
             case "ALL":
                 method = new SearchMethodAll();
                 break;
@@ -72,13 +90,9 @@ public class SearchApp {
                 method = new SearchMethodNone();
                 break;
             default:
-                System.out.println("No correct method given! Try Again");
-                break;
+                return false;
         }
-
-        String[] searchQuery = askSearchQuery();
-        ArrayList<String> searchResult = method.searchFor(searchQuery, searchIndex);
-        printFoundPeople(searchResult);
+        return true;
     }
 
     /**
