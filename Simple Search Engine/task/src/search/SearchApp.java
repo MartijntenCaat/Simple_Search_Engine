@@ -16,14 +16,6 @@ public class SearchApp {
         this.searchIndex = new SearchIndex();
     }
 
-    private void setMethod(ISearchMethod method) {
-        this.method = method;
-    }
-
-    private ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
-        return method.searchFor(queryParts, searchIndex);
-    }
-
     private String[] askSearchQuery() {
         System.out.println("Enter a name or email to search all suitable people.");
         return scanner.nextLine().toLowerCase().split(" ");
@@ -71,21 +63,21 @@ public class SearchApp {
 
         switch (searchMethod) {
             case "ALL":
-                setMethod(new SearchMethodAll());
+                method = new SearchMethodAll();
                 break;
             case "ANY":
-                setMethod(new SearchMethodAny());
+                method = new SearchMethodAny();
                 break;
             case "NONE":
-                setMethod(new SearchMethodNone());
+                method = new SearchMethodNone();
                 break;
             default:
-                System.out.println("No correct method given!");
+                System.out.println("No correct method given! Try Again");
                 break;
         }
 
         String[] searchQuery = askSearchQuery();
-        ArrayList<String> searchResult = searchFor(searchQuery, searchIndex);
+        ArrayList<String> searchResult = method.searchFor(searchQuery, searchIndex);
         printFoundPeople(searchResult);
     }
 
