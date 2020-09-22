@@ -20,7 +20,6 @@ public class SearchMethodNone implements ISearchMethod {
         for (String part : queryParts) {
             if (searchIndex.getInvertedSearchIndex().containsKey(part)) {
                 ArrayList<Integer> lineNumbers = searchIndex.getInvertedSearchIndex().get(part);
-
                 removableLineNumbers.addAll(lineNumbers);
             }
         }
