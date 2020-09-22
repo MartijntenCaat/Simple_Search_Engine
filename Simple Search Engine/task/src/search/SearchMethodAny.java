@@ -16,20 +16,19 @@ public class SearchMethodAny implements ISearchMethod {
     public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
         result = new ArrayList<>();
 
-        ArrayList<Integer> addableIndexNumbers = new ArrayList();
+        ArrayList<Integer> addableIndexNumbers = new ArrayList<>();
 
         for (String part : queryParts) {
             if (searchIndex.getInvertedSearchIndex().containsKey(part)) {
-                for (int i : searchIndex.getInvertedSearchIndex().get(part)) {
-                    addableIndexNumbers.add(i);
-                }
+                ArrayList<Integer> indexes = searchIndex.getInvertedSearchIndex().get(part);
+                addableIndexNumbers.addAll(indexes);
             }
         }
 
         LinkedHashSet<Integer> addableIndexNumbersSet = new LinkedHashSet<>(addableIndexNumbers);
 
-        for (int i : addableIndexNumbersSet) {
-            result.add(searchIndex.getRawSearchIndex().get(i));
+        for (int index : addableIndexNumbersSet) {
+            result.add(searchIndex.getRawSearchIndex().get(index));
         }
 
         return result;
