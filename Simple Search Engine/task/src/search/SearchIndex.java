@@ -40,6 +40,5 @@ public class SearchIndex {
                 invertedSearchIndex.put(string, existingPositionList);
             }
         }
-
     }
 }

@@ -13,7 +13,7 @@ public class SearchMethodAny implements ISearchMethod {
      * @return result list with zero, one or more results in the search index.
      */
     @Override
-    public ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex) {
+    public ArrayList<String> search(String[] queryParts, SearchIndex searchIndex) {
         result = new ArrayList<>();
 
         ArrayList<Integer> addableIndexNumbers = new ArrayList<>();

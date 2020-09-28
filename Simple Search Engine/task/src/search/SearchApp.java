@@ -8,7 +8,6 @@ public class SearchApp {
     private final Scanner scanner;
     private final SearchIndex searchIndex;
     private boolean isUpAndRunning;
-    private ISearchMethod method;
 
     public SearchApp() {
         this.scanner = new Scanner(System.in);
@@ -59,40 +58,34 @@ public class SearchApp {
      * Method that does the searching, based on the chosen search algorithm, the algorithm is changed on runtime.
      */
     private void findAPersonByMethod() {
-        String requestedSearchMethod = askSearchMethod();
-        boolean isMethodSet = setSearchMethod(requestedSearchMethod);
+        ISearchMethod searchMethod = setSearchMethod(askSearchMethod());
 
-        if (!isMethodSet) {
-            System.out.println("No correct method given! Try Again");
+        if (searchMethod != null) {
+            String[] searchQuery = askSearchQuery();
+            ArrayList<String> searchResult = searchMethod.search(searchQuery, searchIndex);
+            printFoundPeople(searchResult);
             return;
         }
-
-        String[] searchQuery = askSearchQuery();
-        ArrayList<String> searchResult = method.searchFor(searchQuery, searchIndex);
-        printFoundPeople(searchResult);
+        System.out.println("No correct method given! Try Again");
     }
 
     /**
      * Method sets the user requested search method (algo).
      *
      * @param requestedSearchMethod string based on user input.
-     * @return true if existing method is set, false if none existing method is set.
+     * @return ISearchMethod or null if none was given.
      */
-    private boolean setSearchMethod(String requestedSearchMethod) {
+    private ISearchMethod setSearchMethod(String requestedSearchMethod) {
         switch (requestedSearchMethod) {
             case "ALL":
-                method = new SearchMethodAll();
-                break;
+                return new SearchMethodAll();
             case "ANY":
-                method = new SearchMethodAny();
-                break;
+                return new SearchMethodAny();
             case "NONE":
-                method = new SearchMethodNone();
-                break;
+                return new SearchMethodNone();
             default:
-                return false;
+                return null;
         }
-        return true;
     }
 
     /**

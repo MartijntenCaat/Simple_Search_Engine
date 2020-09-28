@@ -14,5 +14,5 @@ public interface ISearchMethod {
      * @param searchIndex the total index to be searched in
      * @return results of the search in a list
      */
-    ArrayList<String> searchFor(String[] queryParts, SearchIndex searchIndex);
+    ArrayList<String> search(String[] queryParts, SearchIndex searchIndex);
 }
